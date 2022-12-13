@@ -2,6 +2,9 @@
 use std::io;
 const F: char = 'F';
 const C: char = 'C';
+const DIFF: f32 = 32.0;
+const WEIGHT: f32 = 5.0/9.0;
+
 
 fn main() {
 
@@ -30,7 +33,6 @@ fn convert(temp2convert: &str) -> Result<String, &'static str> {
         return Err("we don´t know how to convert {temp}, please input something like 45.32F or 12C or C32.8 or F30");
     }
     
-    
     let tmp: &str;
     if temp.ends_with(F) || temp.ends_with(C) {
         tmp = temp.get(0..temp.len()-1).unwrap().trim();
@@ -50,8 +52,7 @@ fn convert(temp2convert: &str) -> Result<String, &'static str> {
         convert2celsius(degree)
     } else if temp.ends_with(C) || temp.starts_with(C) {
         convert2fahrenheit(degree)
-    }  
-    else {
+    } else {
         return Err("we don´t know how to convert {temp}");
     }
 }
@@ -71,7 +72,7 @@ fn convert2celsius(degree: f32) -> Result<String, &'static str> {
     match degree {
         x if x < FAHRENHEIT_MIN => Err("it is freeeeeeeezing! below absolute zero!"),
         x if x <= FAHRENHEIT_MAX => {
-            let celsius = round((degree-32.0)*5.0/9.0,2);
+            let celsius = round((degree-DIFF)*WEIGHT,2);
 
             let output = format!("{degree} Fahrenheit is {celsius} Celsius.");
  
@@ -89,7 +90,7 @@ fn convert2fahrenheit(degree: f32) -> Result<String, &'static str> {
     match degree {
         x if x < CELSIUS_MIN => Err("it is freeeeeeeezing! below absolute zero!"),
         x if x <= CELSIUS_MAX => {
-            let fahrenheit = round((degree*9.0/5.0)+32.0,2);
+            let fahrenheit = round((degree/WEIGHT)+DIFF,2);
 
             let output = format!("{degree} Celsius is {fahrenheit} Fahrenheit.");
  
