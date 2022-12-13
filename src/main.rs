@@ -1,5 +1,6 @@
 
 use std::io;
+
 const F: char = 'F';
 const C: char = 'C';
 const DIFF: f32 = 32.0;
@@ -30,7 +31,7 @@ fn main() {
 fn convert(temp2convert: &str) -> Result<String, &'static str> { 
     let temp = temp2convert.trim().to_uppercase();
     if temp.len()<=1 {
-        return Err("we don´t know how to convert {temp}, please input something like 45.32F or 12C or C32.8 or F30");
+        return Err("Please input something like 45.32F or 12C or C32.8 or F30");
     }
     
     let tmp: &str;
@@ -39,7 +40,7 @@ fn convert(temp2convert: &str) -> Result<String, &'static str> {
     } else if temp.starts_with(F) || temp.starts_with(C) {
         tmp = temp.get(1..temp.len()).unwrap().trim();
     } else {
-        return Err("we don´t know how to convert {temp}");
+        return Err("");
     }
 
     let degree: f32;
@@ -53,7 +54,7 @@ fn convert(temp2convert: &str) -> Result<String, &'static str> {
     } else if temp.ends_with(C) || temp.starts_with(C) {
         convert2fahrenheit(degree)
     } else {
-        return Err("we don´t know how to convert {temp}");
+        return Err("");
     }
 }
 
